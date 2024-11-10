@@ -9,7 +9,7 @@ import numpy as np
 data = pd.read_csv('/Users/coletrammell/Documents/GitHub/Homerun/source/gather_data/combined_data.csv')
 
 # Define the columns in the order of their weights
-columns = ['Wins','Losses', 'RS', 'RA', 'PCT', 'DIF', 'OBP', 'xSLG', 'HR']
+columns = ['Wins','Losses', 'DIF', 'OBP', 'xSLG', 'HR']
 
 # Check if all columns exist in the DataFrame
 missing_columns = [col for col in columns if col not in data.columns]
@@ -22,7 +22,7 @@ rankings = {team: 0 for team in data['Team'].unique()}
 # Run the test 100 times
 for _ in range(100):
     # Generate base weights in the order of columns
-    base_weights = np.array([0.2, 0.3, 0.15, 0.15, 0.05, 0.05, 0.05, 0.025, 0.025])
+    base_weights = np.array([0.3, -.4, 0.5, 0.3, 0.2, 0.1])
     # Adjust weights by ±20%
     weights = base_weights + (np.random.rand(len(columns)) - 0.5) * 0.4
     weights = np.clip(weights, 0, 1)  # Ensure weights are within [0, 1]
