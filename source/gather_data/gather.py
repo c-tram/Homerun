@@ -64,11 +64,11 @@ def team_stat_pull():
     # Define the CSV file headers
     headers = ['Team','PA', 'AB', 'Hits', '2B', '3B', 'HR', 'BB', 'SO', 'BA', 'OBP', 'SLG', 'xSLG']
     teams = [
-        'Chicago White Sox', 'Cleveland Guardians', 'Colorado Rockies', 'Washington Nationals', 'Los Angeles Angels',
+        'Chicago White Sox', 'Cleveland Guardians', 'Cincinnati Reds', 'Washington Nationals', 'Los Angeles Angels',
         'Kansas City Royals', 'Tampa Bay Rays', 'Detroit Tigers', 'Colorado Rockies', 'Oakland Athletics',
         'Miami Marlins', 'Texas Rangers', 'Toronto Blue Jays', 'San Francisco Giants', 'Seattle Mariners',
         'Atlanta Braves', 'Pittsburgh Pirates', 'San Diego Padres', 'Houston Astros', 'St. Louis Cardinals',
-        'Cincinnati Reds', 'Minnesota Twins', 'New York Mets', 'Philadelphia Phillies', 'Milwaukee Brewers',
+        'Chicago Cubs', 'Minnesota Twins', 'New York Mets', 'Philadelphia Phillies', 'Milwaukee Brewers',
         'Baltimore Orioles', 'Boston Red Sox', 'New York Yankees', 'Los Angeles Dodgers', 'Arizona Diamondbacks'
     ]
 

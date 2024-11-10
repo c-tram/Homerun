@@ -19,12 +19,12 @@ if missing_columns:
 # Initialize a dictionary to store the rankings
 rankings = {team: 0 for team in data['Team'].unique()}
 
-# Run the test 100 times
-for _ in range(100):
+# Run the test 1000 times for more randomness
+for _ in range(1000):
     # Generate base weights in the order of columns
-    base_weights = np.array([0.3, -.4, 0.5, 0.3, 0.2, 0.1])
-    # Adjust weights by ±20%
-    weights = base_weights + (np.random.rand(len(columns)) - 0.5) * 0.4
+    base_weights = np.array([0.4, -0.6, 0.4, 0.4, 0.3, 0.1])
+    # Adjust weights by ±50% for more variability
+    weights = base_weights + (np.random.rand(len(columns)) - 0.5) * 1.0
     weights = np.clip(weights, 0, 1)  # Ensure weights are within [0, 1]
 
     # Calculate the weighted score for each team
@@ -39,7 +39,7 @@ for _ in range(100):
 
 # Calculate the average ranking
 for team in rankings:
-    rankings[team] /= 100
+    rankings[team] /= 1000
 
 # Sort the teams by their average ranking
 sorted_rankings = sorted(rankings.items(), key=lambda x: x[1])
