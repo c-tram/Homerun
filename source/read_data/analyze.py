@@ -1,49 +1,50 @@
-import pandas as pd
-import numpy as np
+rewrite this code to account for pitching stats as well.
 
-#purpose of this file will be to analyze the data that we have gathered from the gather_data folder and to create visualizations of the data
-#we will use pandas to read the data and matplotlib to create visualizations
-#from this data, we will be able to see trends and patterns in the data that we have gathered and predict who should have won the WS based on the data and overall percentages for each tim to have won the world series
+Weight stats in this order. All of these stats are negative. with > being worst stat to have against a pitcher
 
-# Load the data
-data = pd.read_csv('/Users/coletrammell/Documents/GitHub/Homerun/source/gather_data/combined_data.csv')
+H > 
 
-# Define the columns in the order of their weights
-columns = ['Wins','Losses', 'DIF', 'OBP', 'xSLG', 'HR']
 
-# Check if all columns exist in the DataFrame
-missing_columns = [col for col in columns if col not in data.columns]
-if missing_columns:
-    raise KeyError(f"Missing columns in data: {missing_columns}")
 
-# Initialize a dictionary to store the rankings
-rankings = {team: 0 for team in data['Team'].unique()}
 
-# Run the test 1000 times for more randomness
-for _ in range(1000):
-    # Generate base weights in the order of columns
-    base_weights = np.array([0.4, -0.6, 0.4, 0.4, 0.3, 0.1])
-    # Adjust weights by ±50% for more variability
-    weights = base_weights + (np.random.rand(len(columns)) - 0.5) * 1.0
-    weights = np.clip(weights, 0, 1)  # Ensure weights are within [0, 1]
+import csv
 
-    # Calculate the weighted score for each team
-    data['Score'] = data[columns].dot(weights)
+# Read the CSV file
+with open('/Users/coletrammell/Documents/GitHub/Homerun/source/gather_data/generated_data/team_stats_2024.csv', mode='r') as file:
+    reader = csv.DictReader(file)
+    teams_data = list(reader)
 
-    # Rank the teams based on their scores
-    data['Rank'] = data['Score'].rank(ascending=False)
+# Function to calculate a score based on the given priorities
+def calculate_score(team):
+    return (int(team['Hits'].replace(',', '')) * 1.5 +
+            int(team['BB'].replace(',', '')) * 1.4 +
+            float(team['SLG']) * 1.3 +
+            float(team['xSLG']) * 1.2 +
+            float(team['BA']) * 1.1 +
+            int(team['HR']) * 1.0 -
+            int(team['SO'].replace(',', '')) * 0.5)
 
-    # Update the rankings
-    for team in data['Team'].unique():
-        rankings[team] += data.loc[data['Team'] == team, 'Rank'].values[0]
+# Calculate scores for each team
+for team in teams_data:
+    team['Score'] = calculate_score(team)
 
-# Calculate the average ranking
-for team in rankings:
-    rankings[team] /= 1000
+# Sort teams by score
+teams_data.sort(key=lambda x: x['Score'], reverse=True)
 
-# Sort the teams by their average ranking
-sorted_rankings = sorted(rankings.items(), key=lambda x: x[1])
+# Predict wins and losses
+total_games = 162
+for i, team in enumerate(teams_data):
+    # Assuming the top team wins more games and the bottom team wins fewer games
+    wins = total_games * (1 - (i / len(teams_data)))
+    losses = total_games - wins
+    team['Wins'] = round(wins)
+    team['Losses'] = round(losses)
 
-    # Save the rankings to a new CSV file
-rankings_df = pd.DataFrame(sorted_rankings, columns=['Team', 'Average Rank'])
-rankings_df.to_csv('/Users/coletrammell/Documents/GitHub/Homerun/source/read_data/rankings.csv', index=False)
+# Write the predictions to a new CSV file
+with open('/Users/coletrammell/Documents/GitHub/Homerun/source/gather_data/generated_data/team_stats_2025_predictions.csv', mode='w', newline='') as file:
+    fieldnames = ['Team', 'Wins', 'Losses']
+    writer = csv.DictWriter(file, fieldnames=fieldnames)
+    
+    writer.writeheader()
+    for team in teams_data:
+        writer.writerow({'Team': team['Team'], 'Wins': team['Wins'], 'Losses': team['Losses']})
