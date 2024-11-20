@@ -59,9 +59,10 @@ def team_pitching_stat_pull_for_year(year):
         team_id = team_logo.get_attribute('src').split('/')[-1].split('.')[0]
         team_name = get_team_name(team_id)
         cells = row.find_elements(By.CSS_SELECTOR, '.tr-data.align-right')
-        if len(data) >= 30:
-            break
-        data.append([team_name] + [cell.text for cell in cells[:8]])  # Include team name and take the first 8 columns
+
+        
+        if all(cell.text != '' for cell in cells[1:8]):
+            data.append([team_name] + [cell.text for cell in cells[:8]])  # Include team name and take the first 8 columns
 
     driver.quit()
 
@@ -72,7 +73,7 @@ def team_pitching_stat_pull_for_year(year):
     os.makedirs('generated_data', exist_ok=True)
     
     # Write data to CSV file
-    with open(f'generated_data/team_pitching_stats_{year}.csv', 'w', newline='') as file:
+    with open(f'generated_data/team_pitching_stats_{year}.csv', 'w+', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(headers)
         writer.writerows(data)
@@ -164,3 +165,5 @@ def combine_csv_files():
         writer.writerows(combined_data)
 
     print("Data has been written to generated_data/combined_data.csv")
+
+

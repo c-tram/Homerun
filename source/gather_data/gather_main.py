@@ -17,4 +17,4 @@ if __name__ == "__main__":
     # Execute the final function
     #combine_csv_files()
 
-    gather_functions.team_stat_pull(2020,2024)
+    gather_functions.team_stat_pull(2021,2024)
