@@ -40,6 +40,7 @@ def calculate_total_ratios(hitting_ratios, pitching_ratios):
         total_ratios[team] = (sum(hitting_ratios[team].values()) + sum(pitching_ratios[team].values())) / (len(hitting_ratios[team]) + len(pitching_ratios[team]))
     return total_ratios
 
+
 def predict_win_loss(total_ratios):
     mean_ratio = statistics.mean(total_ratios.values())
 

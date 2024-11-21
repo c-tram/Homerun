@@ -4,7 +4,7 @@ import gather_functions
 
 if __name__ == "__main__":
 
-    gather_functions.team_stat_pull(2021,2024)
+    #gather_functions.team_stat_pull(2021,2024)
 
     hitting_data = analyze_functions.read_data('generated_data/team_hitting_stats_2024.csv')
     pitching_data = analyze_functions.read_data('generated_data/team_pitching_stats_2024.csv')
