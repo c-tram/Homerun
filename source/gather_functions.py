@@ -5,7 +5,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import csv
 import os
 import threading
-from team_identifiers import get_team_name
+import team_identifiers
 
 def setup_driver():
     """Setup the Selenium WebDriver."""
@@ -24,7 +24,7 @@ def team_hitting_stat_pull_for_year(year):
     for row in rows:
         team_logo = row.find_element(By.CSS_SELECTOR, '.team-mug')
         team_id = team_logo.get_attribute('src').split('/')[-1].split('.')[0]
-        team_name = get_team_name(team_id)
+        team_name = team_identifiers.get_team_name(team_id)
         cells = row.find_elements(By.CSS_SELECTOR, '.tr-data.align-right')
         if len(data) >= 30:
             break
@@ -57,7 +57,7 @@ def team_pitching_stat_pull_for_year(year):
     for row in rows:
         team_logo = row.find_element(By.CSS_SELECTOR, '.team-mug')
         team_id = team_logo.get_attribute('src').split('/')[-1].split('.')[0]
-        team_name = get_team_name(team_id)
+        team_name = team_identifiers.get_team_name(team_id)
         cells = row.find_elements(By.CSS_SELECTOR, '.tr-data.align-right')
 
         
