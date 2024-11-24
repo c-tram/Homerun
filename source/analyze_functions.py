@@ -53,9 +53,25 @@ def predict_win_loss(total_ratios):
         predictions.sort(key=lambda x: x['Wins'], reverse=True)
     return predictions
 
+def calculate_prediction_accuracy(predictions, actual_standings_file):
+    actual_standings = read_data(actual_standings_file)
+    actual_standings = {row['Team']: row for row in actual_standings}
+    for prediction in predictions:
+            team = prediction['Team']
+            if team in actual_standings:
+                actual_wins = int(actual_standings[team]['Wins'])
+                actual_losses = int(actual_standings[team]['Losses'])
+                actual_win_percentage = actual_wins / (actual_wins + actual_losses)
+                predicted_win_percentage = prediction['Wins'] / 162
+                prediction_accuracy = 100 - abs(predicted_win_percentage - actual_win_percentage) * 100
+                prediction['Prediction Accuracy %'] = round(prediction_accuracy, 2)
+            else:
+                prediction['Prediction Accuracy %'] = None
+    return predictions
+
 def write_predictions_to_csv(predictions, output_file):
     with open(output_file, 'w', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=['Team', 'Win-Loss Ratio', 'Wins', 'Losses'])
+        writer = csv.DictWriter(file, fieldnames=['Team', 'Win-Loss Ratio', 'Wins', 'Losses', 'Prediction Accuracy %'])
         writer.writeheader()
         writer.writerows(predictions)
 

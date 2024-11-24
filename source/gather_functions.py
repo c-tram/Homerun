@@ -104,6 +104,10 @@ def team_standing_pull_for_year(year):
     for row in rows:
         cells = row.find_elements(By.CSS_SELECTOR, 'td')
         team_name = row.find_element(By.CSS_SELECTOR, 'th').text
+        for key, value in team_identifiers.team_dict.items():
+            if str(value) in team_name:
+                team_name = value
+                break
         wins = cells[0].text
         losses = cells[1].text
         pct = cells[2].text

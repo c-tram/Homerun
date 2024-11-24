@@ -4,7 +4,8 @@ import gather_functions
 
 if __name__ == "__main__":
 
-    gather_functions.team_stat_pull(2024,2024)
+    #gather_functions.team_stat_pull(2024,2024)
+    gather_functions.team_standing_pull(2024,2024)
 
     hitting_data = analyze_functions.read_data('generated_data/team_hitting_stats_2024.csv')
     pitching_data = analyze_functions.read_data('generated_data/team_pitching_stats_2024.csv')
@@ -21,6 +22,7 @@ if __name__ == "__main__":
     total_ratios = analyze_functions.calculate_total_ratios(hitting_ratios, pitching_ratios)
 
     predictions = analyze_functions.predict_win_loss(total_ratios)
+    predictions = analyze_functions.calculate_prediction_accuracy(predictions, 'generated_data/team_standings_2024.csv')
     analyze_functions.write_predictions_to_csv(predictions, 'predicted_win_loss.csv')
 
 
