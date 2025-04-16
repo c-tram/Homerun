@@ -4,11 +4,11 @@ import gather_functions
 
 if __name__ == "__main__":
 
-    #gather_functions.team_stat_pull(2024,2024)
-    gather_functions.team_standing_pull(2024,2024)
+    gather_functions.team_stat_pull(2025,2025)
+    gather_functions.team_standing_pull(2025,2025)
 
-    hitting_data = analyze_functions.read_data('generated_data/team_hitting_stats_2024.csv')
-    pitching_data = analyze_functions.read_data('generated_data/team_pitching_stats_2024.csv')
+    hitting_data = analyze_functions.read_data('generated_data/team_hitting_stats_2025.csv')
+    pitching_data = analyze_functions.read_data('generated_data/team_pitching_stats_2025.csv')
 
     hitting_averages = analyze_functions.calculate_averages(hitting_data)
     pitching_averages = analyze_functions.calculate_averages(pitching_data)
